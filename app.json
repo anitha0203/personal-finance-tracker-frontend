@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "personal-finance-tracker",
+    "slug": "personal-finance-tracker",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "personal-finance-tracker"
+}
