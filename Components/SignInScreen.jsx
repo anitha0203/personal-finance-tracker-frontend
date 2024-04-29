@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -22,10 +23,31 @@ export default function SignInScreen() {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      console.log(email, pin);
-      setEmail("")
-      setPin("")
-      setErrors({})
+      // const userData = {
+      //   email: email,
+      //   pin: pin
+      // };
+
+      // axios.get('http://192.168.0.118:8083/v1/pft/Sample').then(response => {
+      //   console.log(response.data);
+      // })
+      // .catch(error => {
+      //   console.error('Error sfending data:', error);
+      // });
+
+      axios.post('http://192.168.0.118:8083/v1/pft/checkUser?email='+ email +'&pin='+ pin)
+        .then(response => {
+          console.log('Data sent successfully');
+          console.log(response.data);
+          navigation.navigate('DashboardScreen');
+          // Reset form fields and errors
+          setEmail("");
+          setPin("");
+          setErrors({});
+        })
+        .catch(error => {
+          console.error('Error sending data:', error);
+        });
     }
   }
 
@@ -42,7 +64,7 @@ export default function SignInScreen() {
       {errors.pin && <Text style={styles.errorMessage}>{errors.pin}</Text>}
 
       <Button title='Login' onPress={handleSubmit} />
-      <Text style={{ fontSize: 16, paddingTop: 10 }} onPress={() => { navigation.navigate('SignUp') }}>If you don't have an account, Sign Up</Text>
+      <Text style={{ fontSize: 16, paddingTop: 10 }} onPress={() => { navigation.navigate('SignUp') }}>Don't have an account? Sign Up</Text>
     </KeyboardAvoidingView>
   );
 }
